@@ -4,12 +4,10 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -17,34 +15,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-	#[ORM\Column(type: 'string')]
+	#[ORM\Column(length: 255, unique: true)]
 	private ?string $login = null;
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-	#[ORM\Column(type: 'json')]
+    #[ORM\Column]
     private array $roles = [];
 
-	#[ORM\Column(type: 'string')]
+    #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column]
+    private ?bool $is_verified = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLogin(): ?string
-    {
-        return $this->login;
-    }
+	public function getLogin(): ?string
+	{
+		return $this->login;
+	}
 
-    public function setLogin(string $login): self
-    {
-        $this->login = $login;
+	public function setLogin(string $login): self
+	{
+		$this->login = $login;
 
-        return $this;
-    }
+		return $this;
+	}
 
     public function getEmail(): ?string
     {
@@ -110,4 +111,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->is_verified;
+    }
+
+    public function setIsVerified(bool $is_verified): self
+    {
+        $this->is_verified = $is_verified;
+
+        return $this;
+    }
+
 }

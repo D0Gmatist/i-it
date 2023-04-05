@@ -23,45 +23,11 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-            # configure the maximum login attempts
-            login_throttling:
-                # per minute
-                max_attempts: 3
-                interval: '15 minutes'
-
-            form_login:
-                # "app_login" is the name of the route created previously
-                login_path: app_login
-                check_path: app_login
-
-            logout:
-                path: app_logout
-
-        secured_area:
-            form_login:
-                enable_csrf: true
-
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/api, roles: ROLE_ADMIN }
-         - { path: ^/profile, roles: ROLE_USER }
-
-    role_hierarchy:
-        ROLE_USER: ROLE_USER
-        ROLE_ALLOWED_TO_SWITCH: ROLE_ALLOWED_TO_SWITCH
-        ROLE_ADMIN: [
-            ROLE_USER,
-            ROLE_ADMIN,
-            ROLE_ALLOWED_TO_SWITCH
-        ]
-        ROLE_SUPER_ADMIN: [
-            ROLE_USER,
-            ROLE_ADMIN,
-            ROLE_SUPER_ADMIN,
-            ROLE_ALLOWED_TO_SWITCH
-        ]
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
